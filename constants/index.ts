@@ -191,3 +191,9 @@ export const defaultValues = {
 };
 
 export const creditFee = -1;
+
+export enum Models {
+  User = "User",
+  Image = "Image",
+  Transaction = "Transaction",
+}

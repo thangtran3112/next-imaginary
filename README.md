@@ -21,3 +21,8 @@ export default clerkMiddleware((auth, request) => {
 ```
 
 - [List Of Clerk Environment Variables](https://clerk.com/docs/deployments/clerk-environment-variables#sign-in-and-sign-up-redirects)
+
+## Mongoose Models
+
+- [Image model](./lib/database/models/Image.ts)
+- After creating Image Schema, we can ask `ChatGPT` or `Claude` AI to create the exact Image Interface based on the Image schema.
