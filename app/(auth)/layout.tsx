@@ -1,7 +1,7 @@
-import { PropsWithChildren } from "react";
+import React from "react";
 
-const Layout = ({ children }: PropsWithChildren) => {
-  return <main className="auth">layout</main>;
+const Layout = ({ children }: { children: React.ReactNode }) => {
+  return <main className="auth">{children}</main>;
 };
 
 export default Layout;
