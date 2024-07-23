@@ -3,6 +3,7 @@
 - Techstacks: NextJS, TailwindCSS, Typescript, Cloudinary AI, Clerk
 - Important: This project uses experimental Next15, React Compiler, React 19 RC.
 - Installtion: `npm i --legacy-peer-deps` or `npm i --force`
+- Shadcn-UI with React 19: `npx --legacy-peer-deps shadcn-ui@latest add button`
 
 ## Clerk Authentication setup
 
