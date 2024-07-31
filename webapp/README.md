@@ -21,6 +21,8 @@ export default clerkMiddleware((auth, request) => {
 ```
 
 - [List Of Clerk Environment Variables](https://clerk.com/docs/deployments/clerk-environment-variables#sign-in-and-sign-up-redirects)
+- We need to sync Clerk login data with our DB,[Using Clerk Webhook](https://clerk.com/docs/integrations/webhooks/sync-data)
+  ![Clerk Webhook Endpoint](../images/clerk-webhook.png)
 
 ## Mongoose Models
 
@@ -45,5 +47,3 @@ npm i --legacy-peer-deps
 import { Config } from "sst/node/config";
 const databaseUrl = Config.DATABASE_URL;
 ```
-
-## Cdk deployments
