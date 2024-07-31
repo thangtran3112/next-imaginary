@@ -1,0 +1,22 @@
+{
+  "name": "cdk-nextjs-standalone-example-app-router",
+  "version": "0.1.0",
+  "scripts": {
+    "ada": "ada credentials update --account=975050381329 --provider=conduit --role=IibsAdminAccess-DO-NOT-DELETE --once",
+    "build": "tsc",
+    "watch": "tsc -w",
+    "cdk": "cdk"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.4",
+    "aws-cdk": "^2.147.2",
+    "esbuild": "^0.21.5",
+    "tsx": "^4.16.0",
+    "typescript": "~5.5.2"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "^2.147.2",
+    "cdk-nextjs-standalone": "^4.0.1",
+    "constructs": "^10.3.0"
+  }
+}

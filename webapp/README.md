@@ -26,3 +26,24 @@ export default clerkMiddleware((auth, request) => {
 
 - [Image model](./lib/database/models/Image.ts)
 - After creating Image Schema, we can ask `ChatGPT` or `Claude` AI to create the exact Image Interface based on the Image schema.
+
+## SST Deployments
+
+- Optimizing deployment to AWS Lambda with [OpenNext](https://opennext.org) and [SST](https://docs.sst.dev/start/nextjs):
+
+```bash
+cd my-app
+npx create-sst@latest
+npx sst dev
+npm i --legacy-peer-deps
+```
+
+- Deploying with SST, we will need to specify the `sst.config.ts` file with Secret Manager values
+- Inside the code base, we will need to [access env variables with Config](https://github.com/thangtran3112/neon-next-aws/blob/4bfdbffe147868961557aefd2419b327cd9adee6/src/app/lib/db.js#L13):
+
+```ts
+import { Config } from "sst/node/config";
+const databaseUrl = Config.DATABASE_URL;
+```
+
+## Cdk deployments

@@ -3,10 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "sst bind next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "deploy:sst": "sst deploy --stage production"
   },
   "dependencies": {
     "@clerk/nextjs": "^5.2.8",
@@ -34,6 +35,9 @@
     "eslint-config-next": "^15.0.0-rc.0",
     "postcss": "^8.4.39",
     "tailwindcss": "^3.4.6",
-    "typescript": "^5.5.3"
+    "typescript": "^5.5.3",
+    "sst": "^2.43.4",
+    "aws-cdk-lib": "2.142.1",
+    "constructs": "10.3.0"
   }
 }
