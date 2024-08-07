@@ -29,6 +29,13 @@ export default clerkMiddleware((auth, request) => {
 - [Image model](./lib/database/models/Image.ts)
 - After creating Image Schema, we can ask `ChatGPT` or `Claude` AI to create the exact Image Interface based on the Image schema.
 
+## Shadcn notes
+
+- Shadcn-UI with React 19: `npx --legacy-peer-deps shadcn-ui@latest add button`
+- [Using Shadcn-UI with react hook form and zod](https://ui.shadcn.com/docs/components/form)
+- Currently react-hook-form validation is not working properly with React 19
+- We may either wait for future fix from react-hook-form team, or use a [workaround fix](https://github.com/orgs/react-hook-form/discussions/11832)
+
 ## SST Deployments
 
 - Optimizing deployment to AWS Lambda with [OpenNext](https://opennext.org) and [SST](https://docs.sst.dev/start/nextjs):
