@@ -14,9 +14,15 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { defaultValues } from "@/constants";
+import { CustomField } from "./CustomField";
 
-const formSchema = z.object({
-  username: z.string().min(3).max(50),
+export const formSchema = z.object({
+  title: z.string(),
+  aspectRatio: z.string().optional(),
+  color: z.string().optional(),
+  prompt: z.string().optional(),
+  publicId: z.string(),
 });
 
 /**
@@ -25,13 +31,25 @@ const formSchema = z.object({
  * We may either wait for future fix from react-hook-form team, or use a workaround belows:
  * https://github.com/orgs/react-hook-form/discussions/11832
  */
-const TransformationForm = () => {
+const TransformationForm = ({
+  action,
+  data = null,
+}: TransformationFormProps) => {
+  const initialValues =
+    data && action === "Update"
+      ? {
+          title: data?.title,
+          aspectRatio: data?.aspectRatio,
+          color: data?.color,
+          prompt: data?.prompt,
+          publicId: data?.publicId,
+        }
+      : defaultValues;
+
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      username: "",
-    },
+    defaultValues: initialValues,
   });
 
   // 2. Define a submit handler.
@@ -43,23 +61,13 @@ const TransformationForm = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
+        <CustomField
           control={form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Username</FormLabel>
-              <FormControl>
-                <Input placeholder="shadcn" {...field} />
-              </FormControl>
-              <FormDescription>
-                This is your public display name.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
+          name="title"
+          formLabel="Image Title"
+          className="w-full"
+          render={({ field }) => <Input {...field} className="input-field" />}
         />
-        <Button type="submit">Submit</Button>
       </form>
     </Form>
   );
