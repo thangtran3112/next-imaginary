@@ -47,6 +47,9 @@ const toBase64 = (str: string) =>
     ? Buffer.from(str).toString("base64")
     : window.btoa(str);
 
+/**
+ * Skeleton image with shimmer effect (while image is transforming)
+ */
 export const dataUrl = `data:image/svg+xml;base64,${toBase64(
   shimmer(1000, 1000)
 )}`;
