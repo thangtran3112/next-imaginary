@@ -54,3 +54,21 @@ npm i --legacy-peer-deps
 import { Config } from "sst/node/config";
 const databaseUrl = Config.DATABASE_URL;
 ```
+
+## Cloudinary
+
+- To Use with NextJs, install `npm i next-cloudinary`
+- Enable Unsigned Upload in Settings:
+  ![Enable Unsigned Uploading in Settings](../images/unsigned-upload-cloudinary.png)
+- Adjusting upload preset:
+  ![Adjusting upload preset](../images/upload-preset.png)
+- Add Media analysis and AI with Google auto-tagging:
+  ![Google auto-tagging](../images/google-auto-tagging.png)
+- Final Upload Preset will look like:
+  ![Final Upload Preset](../images/final-upload-preset.png)
+- Subscribe to Removal and Google Auto tagging feature (For descriptive searchs):
+  ![Cloudinary AI Features](../images/cloudinary-ai-features.png)
+
+## Next Cloudinary
+
+- [Using Next Cloudinary Upload](https://next.cloudinary.dev/clduploadwidget/basic-usage)
