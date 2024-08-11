@@ -29,8 +29,9 @@ import {
   transformationTypes,
 } from "@/constants";
 import { CustomField } from "./CustomField";
-import { useState } from "react";
-import { AspectRatioKey, debounce } from "@/lib/utils";
+import { useState, useTransition } from "react";
+import { AspectRatioKey, debounce, deepMergeObjects } from "@/lib/utils";
+import { updateCredits } from "@/lib/actions/user.action";
 
 export const formSchema = z.object({
   title: z.string(),
@@ -39,6 +40,13 @@ export const formSchema = z.object({
   prompt: z.string().optional(),
   publicId: z.string(),
 });
+
+enum FieldNames {
+  Tittle = "title",
+  Prompt = "prompt",
+  Color = "color",
+  AspectRatio = "aspectRatio",
+}
 
 /**
  * https://ui.shadcn.com/docs/components/form
@@ -61,6 +69,10 @@ const TransformationForm = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isTransforming, setIsTransforming] = useState(false);
   const [transformationConfig, setTransformationConfig] = useState(config);
+
+  //useTransition works similar to useState, but it does not re-render the component immediately
+  //https://medium.com/@amanrags/difference-between-usetransition-and-regular-state-usestate-ab82c94b1864
+  const [isPending, startTransition] = useTransition();
 
   const initialValues =
     data && action === "Update"
@@ -86,10 +98,27 @@ const TransformationForm = ({
     console.log(values);
   }
 
+  // Use `onChange` to watch for changes in your form data.
+  // onChange will update formState and avoid manually invoke setValue
+  // https://www.react-hook-form.com/api/usecontroller/controller/
+  // See https://stackoverflow.com/questions/67917480/onchange-input-in-react-hook-form
   const onSelectFieldHandler = (
     value: string,
     onChangeField: (value: string) => void
-  ) => {};
+  ) => {
+    const imageSize = aspectRatioOptions[value as AspectRatioKey];
+
+    setImage((prevState: any) => ({
+      ...prevState,
+      aspectRatio: imageSize.aspectRatio,
+      width: imageSize.width,
+      height: imageSize.height,
+    }));
+
+    setNewTransformation(transformationType.config);
+
+    return onChangeField(value);
+  };
 
   const onInputChangeHandler = (
     fieldName: string,
@@ -102,7 +131,7 @@ const TransformationForm = ({
         ...prevState,
         [type]: {
           ...prevState?.[type],
-          [fieldName === "prompt" ? "prompt" : "to"]: value,
+          [fieldName === FieldNames.Prompt ? FieldNames.Prompt : "to"]: value,
         },
       }));
     }, 1000)();
@@ -110,14 +139,27 @@ const TransformationForm = ({
     return onChangeField(value);
   };
 
-  const onTransformHandler = async () => {};
+  const onTransformHandler = async () => {
+    setIsTransforming(true);
+
+    setTransformationConfig(
+      //this function is created by ChatGPT
+      deepMergeObjects(newTransformation, transformationConfig)
+    );
+
+    setNewTransformation(null);
+
+    startTransition(async () => {
+      // await updateCredits(userId, creditFee);
+    });
+  };
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <CustomField
           control={form.control}
-          name="title"
+          name={FieldNames.Tittle}
           formLabel="Image Title"
           className="w-full"
           render={({ field }) => <Input {...field} className="input-field" />}
@@ -126,7 +168,7 @@ const TransformationForm = ({
         {type === "fill" && (
           <CustomField
             control={form.control}
-            name="aspectRatio"
+            name={FieldNames.AspectRatio}
             formLabel="Aspect Ratio"
             className="w-full"
             render={({ field }) => (
@@ -155,7 +197,7 @@ const TransformationForm = ({
           <div className="prompt-field">
             <CustomField
               control={form.control}
-              name="prompt"
+              name={FieldNames.Prompt}
               formLabel={
                 type === "remove" ? "Object to remove" : "Object to recolor"
               }
@@ -166,7 +208,7 @@ const TransformationForm = ({
                   className="input-field"
                   onChange={(e) =>
                     onInputChangeHandler(
-                      "prompt",
+                      FieldNames.Prompt,
                       e.target.value,
                       type,
                       field.onChange
@@ -179,7 +221,7 @@ const TransformationForm = ({
             {type === "recolor" && (
               <CustomField
                 control={form.control}
-                name="color"
+                name={FieldNames.Color}
                 formLabel="Replacement Color"
                 className="w-full"
                 render={({ field }) => (
@@ -188,7 +230,7 @@ const TransformationForm = ({
                     className="input-field"
                     onChange={(e) =>
                       onInputChangeHandler(
-                        "color",
+                        FieldNames.Color,
                         e.target.value,
                         "recolor",
                         field.onChange
