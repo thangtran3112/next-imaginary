@@ -119,7 +119,8 @@ export const plans = [
   },
 ];
 
-export const transformationTypes = {
+/** Cloudinary Transformation Configs per type (restore, remove, fill, recolor, etc) */
+export const TransformationTypes = {
   restore: {
     type: "restore",
     title: "Restore Image",
