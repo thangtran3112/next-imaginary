@@ -14,7 +14,7 @@ const populateUser = (query: any) =>
     select: "_id firstName lastName clerkId",
   });
 
-// ADD IMAGE, connect an Image to an author
+// ADD IMAGE
 export async function addImage({ image, userId, path }: AddImageParams) {
   try {
     await connectToDatabase();
@@ -45,7 +45,6 @@ export async function updateImage({ image, userId, path }: UpdateImageParams) {
 
     const imageToUpdate = await Image.findById(image._id);
 
-    //Convert ObjectId type from MongoDB to string
     if (!imageToUpdate || imageToUpdate.author.toHexString() !== userId) {
       throw new Error("Unauthorized or image not found");
     }
@@ -77,7 +76,7 @@ export async function deleteImage(imageId: string) {
   }
 }
 
-// GET IMAGE AND AUTHOR
+// GET IMAGE
 export async function getImageById(imageId: string) {
   try {
     await connectToDatabase();
@@ -87,6 +86,37 @@ export async function getImageById(imageId: string) {
     if (!image) throw new Error("Image not found");
 
     return JSON.parse(JSON.stringify(image));
+  } catch (error) {
+    handleError(error);
+  }
+}
+
+// GET IMAGES BY USER
+export async function getUserImages({
+  limit = 9,
+  page = 1,
+  userId,
+}: {
+  limit?: number;
+  page: number;
+  userId: string;
+}) {
+  try {
+    await connectToDatabase();
+
+    const skipAmount = (Number(page) - 1) * limit;
+
+    const images = await populateUser(Image.find({ author: userId }))
+      .sort({ updatedAt: -1 })
+      .skip(skipAmount)
+      .limit(limit);
+
+    const totalImages = await Image.find({ author: userId }).countDocuments();
+
+    return {
+      data: JSON.parse(JSON.stringify(images)),
+      totalPages: Math.ceil(totalImages / limit),
+    };
   } catch (error) {
     handleError(error);
   }

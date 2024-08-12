@@ -72,3 +72,22 @@ const databaseUrl = Config.DATABASE_URL;
 ## Next Cloudinary
 
 - [Using Next Cloudinary Upload](https://next.cloudinary.dev/clduploadwidget/basic-usage)
+- [Example of using CldImage for transformation](https://next.cloudinary.dev/cldimage/examples)
+- [Configuration Docs for CldImage](https://next.cloudinary.dev/cldimage/configuration)
+- It is also possible to use fully qualified Url to get the edited image. [See here](https://next.cloudinary.dev/cldimage/basic-usage#using-cloudinary-urls)
+
+- Example of using CldImage for recoloring:
+
+```ts
+import { CldImage } from "next-cloudinary";
+
+<CldImage
+  src="<Your Public ID>"
+  width="960"
+  height="600"
+  crop="fill"
+  recolor={["shoelaces", "purple"]}
+  alt=""
+  sizes="100vw"
+/>;
+```

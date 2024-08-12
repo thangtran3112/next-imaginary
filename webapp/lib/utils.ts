@@ -133,7 +133,12 @@ export const download = (url: string, filename: string) => {
     .catch((error) => console.log({ error }));
 };
 
-// DEEP MERGE OBJECTS
+// DEEP MERGE OBJECTS by ChatGPT
+/**
+ * This function merges two objects (obj1 and obj2) recursively, prioritizing obj2's properties.
+ * If a property exists in both objects and is an object itself, the function calls itself
+ * to merge those nested objects. If obj2 is null or undefined, it returns obj1.
+ */
 export const deepMergeObjects = (obj1: any, obj2: any) => {
   if (obj2 === null || obj2 === undefined) {
     return obj1;

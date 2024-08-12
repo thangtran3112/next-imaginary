@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "@/components/shared/Header";
-import { transformationTypes } from "@/constants";
+import { TransformationTypes } from "@/constants";
 import TransformationForm from "@/components/shared/TransformationForm";
 import { auth } from "@clerk/nextjs/server";
 import { getUserById } from "@/lib/actions/user.action";
@@ -10,7 +10,7 @@ const AddTransformationTypePage = async ({
   params: { type },
 }: SearchParamProps) => {
   const { userId } = auth();
-  const transformation = transformationTypes[type];
+  const transformation = TransformationTypes[type];
 
   if (!userId) redirect("/sign-in");
 
