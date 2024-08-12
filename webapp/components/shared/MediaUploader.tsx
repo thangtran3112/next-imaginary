@@ -2,7 +2,13 @@
 
 import { dataUrl, getImageSize } from "@/lib/utils";
 import { useToast } from "../ui/use-toast";
-import { CldImage, CldUploadWidget } from "next-cloudinary";
+import {
+  CldImage,
+  CldUploadWidget,
+  CloudinaryUploadWidgetError,
+  CloudinaryUploadWidgetInfo,
+  CloudinaryUploadWidgetResults,
+} from "next-cloudinary";
 import Image from "next/image";
 import { PlaceholderValue } from "next/dist/shared/lib/get-img-props";
 
@@ -22,26 +28,37 @@ const MediaUploader = ({
 }: MediaUploaderProps) => {
   const { toast } = useToast();
 
-  const onUploadSuccessHandler = (result: any) => {
-    setImage((prevState: any) => ({
-      ...prevState,
-      publicId: result?.info?.public_id,
-      width: result?.info?.width,
-      height: result?.info?.height,
-      secureURL: result?.info?.secure_url,
-    }));
+  const onUploadSuccessHandler = (result: CloudinaryUploadWidgetResults) => {
+    try {
+      const resultInfo = result?.info as CloudinaryUploadWidgetInfo;
+      setImage((prevState: any) => ({
+        ...prevState,
+        publicId: resultInfo.public_id,
+        width: resultInfo.width,
+        height: resultInfo.height,
+        secureURL: resultInfo.secure_url,
+      }));
 
-    //sync the new public_id and show the image
-    onValueChange(result?.info?.public_id);
+      //sync the new public_id and show the image
+      onValueChange(resultInfo.public_id);
 
-    toast({
-      title: "Image uploaded successfully",
-      description: "1 credit was deducted from your account",
-      duration: 3000,
-      className: "success-toast",
-    });
+      toast({
+        title: "Image uploaded successfully",
+        description: "1 credit was deducted from your account",
+        duration: 3000,
+        className: "success-toast",
+      });
+    } catch (error) {
+      //When result is not of type as CloudinaryUploadWidgetInfo
+      toast({
+        title: "Something went wrong while uploading",
+        description: "Please try again",
+        duration: 3000,
+        className: "error-toast",
+      });
+    }
   };
-  const onUploadErrorHandler = (error: any) => {
+  const onUploadErrorHandler = (error: CloudinaryUploadWidgetError) => {
     toast({
       title: "Something went wrong while uploading",
       description: "Please try again",

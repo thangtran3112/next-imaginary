@@ -25,6 +25,7 @@ import {
 import { Input } from "@/components/ui/input";
 import {
   aspectRatioOptions,
+  creditFee,
   defaultValues,
   transformationTypes,
 } from "@/constants";
@@ -33,6 +34,7 @@ import { useState, useTransition } from "react";
 import { AspectRatioKey, debounce, deepMergeObjects } from "@/lib/utils";
 import { updateCredits } from "@/lib/actions/user.action";
 import MediaUploader from "./MediaUploader";
+import TransformedImage from "./TransformedImage";
 
 export const formSchema = z.object({
   title: z.string(),
@@ -43,6 +45,7 @@ export const formSchema = z.object({
 });
 
 enum FieldNames {
+  PublicId = "publicId",
   Tittle = "title",
   Prompt = "prompt",
   Color = "color",
@@ -96,6 +99,7 @@ const TransformationForm = ({
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
+
     console.log(values);
   }
 
@@ -150,8 +154,9 @@ const TransformationForm = ({
 
     setNewTransformation(null);
 
+    //We can use a dynamic value of creditFee, instead of -1 all the time
     startTransition(async () => {
-      // await updateCredits(userId, creditFee);
+      await updateCredits(userId, creditFee);
     });
   };
 
@@ -247,7 +252,7 @@ const TransformationForm = ({
         <div className="media-uploader-field">
           <CustomField
             control={form.control}
-            name="publicId"
+            name={FieldNames.PublicId}
             className="flex size-full flex-col"
             render={({ field }) => (
               <MediaUploader
@@ -260,14 +265,14 @@ const TransformationForm = ({
             )}
           />
 
-          {/* <TransformedImage
+          <TransformedImage
             image={image}
             type={type}
             title={form.getValues().title}
             isTransforming={isTransforming}
             setIsTransforming={setIsTransforming}
             transformationConfig={transformationConfig}
-          /> */}
+          />
         </div>
 
         <div className="flex flex-col gap-4">
