@@ -4,15 +4,15 @@
   "private": true,
   "scripts": {
     "clean": "rm -rf node_modules .next",
-    "dev": "sst bind next dev",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "deploy:sst": "sst deploy --stage production"
+    "lint": "next lint"
   },
   "dependencies": {
     "@clerk/nextjs": "^5.2.8",
     "@hookform/resolvers": "^3.9.0",
+    "@radix-ui/react-alert-dialog": "^1.1.1",
     "@radix-ui/react-dialog": "^1.1.1",
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-select": "^2.1.1",
@@ -40,13 +40,10 @@
     "@types/qs": "^6.9.15",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "aws-cdk-lib": "2.142.1",
-    "constructs": "10.3.0",
     "eslint": "^8",
     "eslint-config-next": "^14.2.5",
     "postcss": "^8.4.39",
-    "sst": "^2.43.4",
     "tailwindcss": "^3.4.6",
-    "typescript": "^5.5.3"
+    "typescript": "^5.5.4"
   }
 }
