@@ -112,7 +112,10 @@ export const getImageSize = (
   return image?.[dimension] || 1000;
 };
 
-// DOWNLOAD IMAGE
+/**
+ * Download file function by passing url and filename
+ * Created by ChatGPT
+ */
 export const download = (url: string, filename: string) => {
   if (!url) {
     throw new Error("Resource URL not provided! You need to provide one");
